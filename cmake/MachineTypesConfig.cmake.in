@@ -1,0 +1,43 @@
+
+set(MachineTypes_VERSION "@MachineTypes_VERSION@")
+
+@PACKAGE_INIT@
+
+#
+# Expose cmake options used at install
+#
+
+set(MachineTypes_DUMMY_OPTION "@MachineTypes_DUMMY_OPTION@")
+
+#
+# Dependencies
+#
+
+#include(CMakeFindDependencyMacro)
+#find_dependency(Threads)
+#find_dependency(SomeConfigDep PATHS "@SomeConfigDep_DIR@")
+
+#
+# MachineTypes Exported Targets
+#
+
+include("${CMAKE_CURRENT_LIST_DIR}/MachineTypesTargets.cmake")
+
+#
+# Message and detect multiple, different, find_package
+#
+
+set(_details "${MachineTypes_DIR}")
+if(NOT DEFINED _MachineTypes_FOUND_MESSAGE_DETAILS)
+  set(_MachineTypes_FOUND_MESSAGE_DETAILS "${_details}" CACHE INTERNAL "")
+  message(STATUS "Found MachineTypes: ${MachineTypes_DIR} (${MachineTypes_VERSION})")
+elseif(NOT _MachineTypes_FOUND_MESSAGE_DETAILS STREQUAL _details)
+  message(WARNING "Different MachineTypes were find_package:
+   - ${_MachineTypes_FOUND_MESSAGE_DETAILS}
+   - ${_details}")
+endif()
+
+#
+# Final check
+#
+check_required_components(MachineTypes)
